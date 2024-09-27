@@ -14,7 +14,7 @@ def send_data_to_window(window_name, message):
     hwnd = win32gui.FindWindow(None, window_name)
     if hwnd:
         data = message.encode('utf-8')
-        
+
         cds = COPYDATASTRUCT()
         cds.dwData = 100  # 自定义数据
         cds.cbData = len(data)
@@ -32,7 +32,7 @@ def send_data_to_window(window_name, message):
         result = win32api.SendMessage(hwnd, win32con.WM_COPYDATA, 0, lparam_address)
         print(f'Message sent, result: {result}')
     else:
-        print(f'Window '{window_name}' not found.')
+        print(f"Window '{window_name}' not found.")
 
 
 
