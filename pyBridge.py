@@ -6,16 +6,20 @@ import win32api
 import win32gui
 import win32con
 
+import lib.inputMethod
+
 # 常量定义
 ID_TRAYICON = 1001
 ID_SHOW_HIDE = 1002
 ID_CLEAR = 1003
 ID_EXIT = 1004
+
 NIM_ADD = 0x00000000
 NIM_DELETE = 0x00000002
 NIM_MODIFY = 0x00000001
-NIF_ICON = 0x00000002
+
 NIF_MESSAGE = 0x00000001
+NIF_ICON = 0x00000002
 NIF_TIP = 0x00000004
 
 
@@ -39,7 +43,7 @@ class MainWindow:
         wc.hInstance = win32api.GetModuleHandle(None)
 
         # 使用自定义图标
-        icon_path = os.path.join(os.path.dirname(__file__), 'python.ico')
+        icon_path = os.path.join(os.path.dirname(__file__), './res/python.ico')
         wc.hIcon = win32gui.LoadImage(0, icon_path, win32con.IMAGE_ICON, 0, 0, win32con.LR_LOADFROMFILE)
         wc.hCursor = win32gui.LoadCursor(0, win32con.IDC_ARROW)  # 使用默认光标
 
@@ -194,7 +198,12 @@ class MainWindow:
 
 def proc_copydata_message(msg_id, msg_str):
     print(f'proc_copydata_message {msg_id=}, {msg_str=}')
-    return msg_id
+
+    # 获取输入法中英文状态
+    if msg_id == 100:
+        res = lib.inputMethod.get_im_state()
+
+    return res
 
 
 if __name__ == '__main__':
